@@ -1,0 +1,60 @@
+{block name="extra-panel" append}
+    {if ($snds|count)>0}
+        <table class="lmsbox" id="lms-ui-welcome-box-snds">
+            <thead>
+                <tr onclick="showOrHide('welcome_snds');">
+                    <th class="text-center">
+                        <i class="fas fa-inbox"></i> {trans('SNDS')} - kto ostatnio spamował?
+                    </th>
+                </tr>
+            </thead>
+            <tbody id="welcome_snds">
+                <tr>
+                    <td>
+                        <table class="lmsbox lms-ui-background-cycle">
+                            <colgroup>
+                                <col style="width: 33%;">
+                                <col style="width: 33%;">
+                                <col style="width: 33%;">
+                            </colgroup>
+                            <thead>
+                                <tr class="text-center">
+                                    <th>{"IP Address"|trans}</th>
+                                    <th>{"Activity period"|trans}</th>
+                                    <th>{"Filter result"|trans}</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                {foreach from=$snds item=item}
+                                    <tr class="highlight text-center">
+                                        {if $item.node_id > 0}
+                                            <td><a href="?m=nodeinfo&id={$item.node_id}">{$item.ip_address}</a></td>
+                                        {else}
+                                            <td>{$item.ip_address}</td>
+                                        {/if} <td>od <b>{$item.activity_period_start}</b> do <b>{$item.activity_period_end}</b></td>
+                                        <td class="text-center"
+                                            style="background-color: {if $item.filter_result eq 'GREEN'}green{elseif $item.filter_result eq 'YELLOW'}yellow{else}red{/if}"
+                                            title="{" RCPT commands"|trans}: {$item.rcpt_commands}<br>
+                                {"DATA commands"|trans}: {$item.data_commands}<br>
+                                {"Message recipients"|trans}: {$item.message_recipients}<br>
+                                {"Complaint rate"|trans}: {$item.complaint_rate}<br>
+                                {"Trap hits"|trans}: {$item.trap_hits}<br>
+                                {"Sample HELO command"|trans}: {$item.sample_helo}<br>
+                                {"Abuse"|trans}: {$item.jmr_p1_sender}<br>
+                                {"Comments"|trans}: {$item.comments}<br>
+                                ">
+                                            <b>{$item.filter_result}</b>
+                                        </td>
+                                    </tr>
+                                {/foreach}
+                            </tbody>
+                        </table>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+    {else}
+        Plugin SNDS jest aktywny. Brak danych o zdarzeniach SNDS.
+    {/if}
+
+{/block}

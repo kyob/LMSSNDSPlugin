@@ -1,0 +1,74 @@
+{block name="nodeinfobox-leftcolumn" append}
+    <tr>
+        <td>
+            {icon name="routed" class="lms-ui-button-clipboard fa-fw"}
+        </td>
+        <td><abbr title="{$trans.snippets.snds_description|trans}">{"SNDS"|trans}</abbr></td>
+        <td>
+            {if ($nodeinfo.snds|count)>0}
+                <table class="lmsbox lms-ui-background-cycle">
+                    <colgroup>
+                        <col style="width: 10%;">
+                        <col style="width: 25%;">
+                        <col style="width: 10%;">
+                        <col style="width: 25%;">
+                        <col style="width: 10%;">
+                        <col style="width: 10%;">
+                        <col style="width: 10%;">
+                    </colgroup>
+                    <thead>
+                        <tr class="text-center">
+                            <td>
+                                {"IP Address"|trans}
+                            </td>
+                            <td>
+                                {"Activity period"|trans}
+                            </td>
+                            <td>
+                                {"Filter result"|trans}
+                            </td>
+                            <td>
+                                {"Trap message period"|trans}
+                            </td>
+                            <td>
+                                {"Sample HELO command"|trans}
+                            </td>
+                            <td>
+                                {"Abuse"|trans}
+                            </td>
+                            <td>
+                                {"Comments"|trans}
+                            </td>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {foreach from=$nodeinfo.snds item=item}
+                            <tr class="highlight">
+                                <td><a href="?m=nodeinfo&id={$item.node_id}">{$item.ip_address}</a></td>
+                                <td>od <b>{$item.activity_period_start}</b> do <b>{$item.activity_period_end}</b></td>
+                                <td class="text-center"
+                                    style="background-color: {if $item.filter_result eq 'GREEN'}green{elseif $item.filter_result eq 'YELLOW'}yellow{else}red{/if}"
+                                    title="{"RCPT commands"|trans}: {$item.rcpt_commands}<br>
+                                       {"DATA commands"|trans}: {$item.data_commands}<br>
+                                       {"Message recipients"|trans}: {$item.message_recipients}<br>
+                                       {"Complaint rate"|trans}: {$item.complaint_rate}<br>
+                                       {"Trap hits"|trans}: {$item.trap_hits}<br>
+
+                                       ">
+                                    <b>{$item.filter_result}</b>
+                                </td>
+                                <td>od <b>{$item.trap_message_period_start}</b> do <b>{$item.trap_message_period_end}</b>
+                                </td>
+                                <td>{$item.sample_helo}</td>
+                                <td>{$item.jmr_p1_sender}</td>
+                                <td>{$item.comments}</td>
+                            </tr>
+                        {/foreach}
+                    </tbody>
+                </table>
+            {else}
+                Brak zdarzeń dla SNDS.
+            {/if}
+        </td>
+    </tr>
+{/block}
