@@ -2,6 +2,9 @@
 
 Outlook.com Smart Network Data Services
 
+![](snds-welcome-page-example.png?raw=true)
+
+
 ## Requirements
 
 Installed [LMS](https://lms.org.pl/) or [LMS-PLUS](https://lms-plus.org) (recommended).
